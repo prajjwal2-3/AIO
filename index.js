@@ -7,9 +7,10 @@ const port = 3001;
 const rsnchat = new RsnChat("rsnai_W4YjLo3R20ONZ93B9MhXlgIc")
 app.use(cors())
 app.use(bodyParser.json());
-function bard(text){
+function bard(text,res){
     rsnchat.bard(text).then((response)=>{
-        return response.message
+        console.log("message aagya")
+        res.json(response.message)
         
     })
 }
@@ -18,21 +19,22 @@ function gemini(text){
      return response.message
     })
 }
-function gpt(text){
+function gpt(text,res){
     rsnchat.gpt(text).then((response)=>{
-        return response.message
+        console.log("message aagya")
+        res.json(response.message)
      
     })
 }
 
 app.post('/api',(req,res)=>{
     const {text,model}=req.body;
-    if(model===bard){
-      const data = bard(text);
-      res.json(data)
-    }else if(model===gpt){
-       const data =  gpt(text);
-       res.json(data)
+    if(model==='bard'){
+      const data = bard(text,res)
+     
+      
+    }else if(model==='gpt'){
+        const data = gpt(text,res)
     }
    
 
